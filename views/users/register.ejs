@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+</head>
+<%- include('../flash/flash') %>
+
+    <body class="register">
+        <div class="register__left">
+            <div class="register__heading">
+                <svg width="210" height="60" viewBox="0 0 154 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M60.84 30C61.1333 30.2667 61.52 30.4 62 30.4C62.4533 30.4 62.8133 30.2667 63.08 30C63.3733 29.7067 63.52 29.32 63.52 28.84V10.08C63.52 9.6 63.3733 9.22667 63.08 8.96C62.8133 8.66667 62.4533 8.52 62 8.52C61.52 8.52 61.1333 8.66667 60.84 8.96C60.5733 9.22667 60.44 9.6 60.44 10.08V28.84C60.44 29.32 60.5733 29.7067 60.84 30ZM60.44 3.72C60.8667 4.14667 61.3733 4.36 61.96 4.36C62.5733 4.36 63.0933 4.14667 63.52 3.72C63.9467 3.29333 64.16 2.77333 64.16 2.16C64.16 1.49333 63.9333 0.973334 63.48 0.599999C63.0533 0.2 62.56 0 62 0C61.4133 0 60.8933 0.2 60.44 0.599999C60.0133 0.973334 59.8 1.49333 59.8 2.16C59.8 2.77333 60.0133 3.29333 60.44 3.72ZM75.4825 29.16C77.1358 30.12 79.0158 30.6 81.1225 30.6C84.0292 30.6 86.4558 29.7067 88.4025 27.92C88.6958 27.6533 88.8158 27.3333 88.7625 26.96C88.7358 26.5867 88.5625 26.2533 88.2425 25.96C87.9492 25.72 87.6292 25.6133 87.2825 25.64C86.9358 25.6667 86.6025 25.8133 86.2825 26.08C85.6158 26.6667 84.8425 27.1067 83.9625 27.4C83.1092 27.6667 82.1625 27.8 81.1225 27.8C79.5758 27.8 78.2025 27.44 77.0025 26.72C75.8025 26 74.8692 25.0133 74.2025 23.76C73.5358 22.5067 73.2025 21.08 73.2025 19.48C73.2025 17.8533 73.5092 16.4133 74.1225 15.16C74.7625 13.9067 75.6425 12.92 76.7625 12.2C77.9092 11.48 79.2292 11.12 80.7225 11.12C83.0692 11.12 85.0158 12 86.5625 13.76C86.8292 14.08 87.1358 14.28 87.4825 14.36C87.8558 14.4133 88.1892 14.3333 88.4825 14.12C88.8558 13.8533 89.0825 13.5467 89.1625 13.2C89.2425 12.8267 89.1358 12.48 88.8425 12.16C87.8025 10.88 86.5892 9.92 85.2025 9.28C83.8425 8.64 82.3492 8.32 80.7225 8.32C78.6692 8.32 76.8558 8.81333 75.2825 9.8C73.7092 10.76 72.4692 12.08 71.5625 13.76C70.6558 15.44 70.2025 17.3467 70.2025 19.48C70.2025 21.5867 70.6692 23.48 71.6025 25.16C72.5625 26.84 73.8558 28.1733 75.4825 29.16ZM99.2716 29.16C100.898 30.12 102.738 30.6 104.792 30.6C106.738 30.6 108.472 30.16 109.992 29.28C111.253 28.5403 112.293 27.5964 113.112 26.4484V28.88C113.112 29.3333 113.258 29.7067 113.552 30C113.845 30.2667 114.218 30.4 114.672 30.4C115.125 30.4 115.498 30.2667 115.792 30C116.085 29.7067 116.232 29.3333 116.232 28.88V19.48C116.205 17.3467 115.698 15.44 114.712 13.76C113.752 12.08 112.432 10.76 110.752 9.8C109.098 8.81333 107.218 8.32 105.112 8.32C103.005 8.32 101.112 8.81333 99.4316 9.8C97.7516 10.76 96.4182 12.08 95.4316 13.76C94.4716 15.44 93.9916 17.3467 93.9916 19.48C93.9916 21.5867 94.4582 23.48 95.3916 25.16C96.3516 26.84 97.6449 28.1733 99.2716 29.16ZM109.232 26.72C108.032 27.44 106.658 27.8 105.112 27.8C103.592 27.8 102.218 27.44 100.992 26.72C99.7649 26 98.7916 25.0133 98.0716 23.76C97.3516 22.48 96.9916 21.0533 96.9916 19.48C96.9916 17.88 97.3516 16.4533 98.0716 15.2C98.7916 13.9467 99.7649 12.96 100.992 12.24C102.218 11.4933 103.592 11.12 105.112 11.12C106.658 11.12 108.032 11.4933 109.232 12.24C110.458 12.96 111.418 13.9467 112.112 15.2C112.832 16.4533 113.192 17.88 113.192 19.48C113.192 21.0533 112.832 22.48 112.112 23.76C111.418 25.0133 110.458 26 109.232 26.72ZM150.662 30C150.955 30.2667 151.329 30.4 151.782 30.4C152.235 30.4 152.595 30.2667 152.862 30C153.155 29.7067 153.302 29.3333 153.302 28.88V17.36C153.302 15.52 152.955 13.92 152.262 12.56C151.595 11.2 150.649 10.1467 149.422 9.4C148.222 8.65333 146.835 8.28 145.262 8.28C143.609 8.28 142.129 8.65333 140.822 9.4C139.68 10.0527 138.751 10.9398 138.037 12.0613C137.393 10.9398 136.534 10.0527 135.462 9.4C134.262 8.65333 132.875 8.28 131.302 8.28C129.755 8.28 128.369 8.65333 127.142 9.4C126.447 9.82277 125.834 10.3396 125.302 10.9504V10.08C125.302 9.62667 125.155 9.25333 124.862 8.96C124.595 8.66667 124.235 8.52 123.782 8.52C123.302 8.52 122.915 8.66667 122.622 8.96C122.355 9.25333 122.222 9.62667 122.222 10.08V28.88C122.222 29.3333 122.355 29.7067 122.622 30C122.915 30.2667 123.302 30.4 123.782 30.4C124.235 30.4 124.595 30.2667 124.862 30C125.155 29.7067 125.302 29.3333 125.302 28.88V17.04C125.302 15.3067 125.835 13.9067 126.902 12.84C127.969 11.7467 129.329 11.2 130.982 11.2C132.529 11.2 133.795 11.76 134.782 12.88C135.769 13.9733 136.262 15.4667 136.262 17.36V28.88C136.262 29.3333 136.409 29.7067 136.702 30C136.995 30.2667 137.369 30.4 137.822 30.4C138.275 30.4 138.635 30.2667 138.902 30C139.195 29.7067 139.342 29.3333 139.342 28.88V17.36L139.342 17.28L139.341 17.2423L139.341 17.2208C139.326 15.4085 139.833 13.9616 140.862 12.88C141.929 11.76 143.289 11.2 144.942 11.2C146.489 11.2 147.755 11.76 148.742 12.88C149.729 13.9733 150.222 15.4667 150.222 17.36V28.88C150.222 29.3333 150.369 29.7067 150.662 30ZM7.56 29.4C8.68 30.0667 9.94667 30.4 11.36 30.4H12.2C12.68 30.4 13.08 30.2667 13.4 30C13.72 29.7067 13.88 29.3333 13.88 28.88C13.88 28.4267 13.7467 28.0533 13.48 27.76C13.2133 27.4667 12.8667 27.32 12.44 27.32H11.36C10.1067 27.32 9.08 26.8933 8.28 26.04C7.48 25.16 7.08 24.04 7.08 22.68V12H11.6C12 12 12.3333 11.88 12.6 11.64C12.8667 11.3733 13 11.0533 13 10.68C13 10.28 12.8667 9.96 12.6 9.72C12.3333 9.45333 12 9.32 11.6 9.32H7.08V3.12C7.08 2.66667 6.93333 2.29333 6.64 2C6.34667 1.70667 5.97333 1.56 5.52 1.56C5.06667 1.56 4.69333 1.70667 4.4 2C4.13333 2.29333 4 2.66667 4 3.12V9.32H1.4C1 9.32 0.666667 9.45333 0.4 9.72C0.133333 9.96 0 10.28 0 10.68C0 11.0533 0.133333 11.3733 0.4 11.64C0.666667 11.88 1 12 1.4 12H4V22.68C4 24.1733 4.32 25.5067 4.96 26.68C5.6 27.8267 6.46667 28.7333 7.56 29.4ZM21.9338 16.92V28.88C21.9338 29.36 21.8004 29.7333 21.5338 30C21.2671 30.2667 20.8938 30.4 20.4137 30.4C19.9338 30.4 19.5604 30.2667 19.2938 30C19.0271 29.7333 18.8937 29.36 18.8937 28.88V10.04C18.8937 9.56 19.0271 9.18667 19.2938 8.92C19.5604 8.65333 19.9338 8.52 20.4137 8.52C20.8938 8.52 21.2671 8.65333 21.5338 8.92C21.8004 9.18667 21.9338 9.56 21.9338 10.04V11.7663C22.6516 10.7937 23.5183 10.005 24.5338 9.4C25.8138 8.65333 27.2271 8.28 28.7738 8.28C30.0004 8.28 30.9471 8.45333 31.6138 8.8C32.2804 9.14667 32.5338 9.65333 32.3737 10.32C32.2671 10.72 32.0804 10.9867 31.8138 11.12C31.5738 11.2533 31.2671 11.3067 30.8938 11.28C30.5471 11.2533 30.1471 11.2267 29.6938 11.2C28.2004 11.0667 26.8671 11.2267 25.6938 11.68C24.5471 12.1067 23.6271 12.7733 22.9338 13.68C22.2671 14.5867 21.9338 15.6667 21.9338 16.92ZM47.9531 5.11782C48.6612 5.54776 48.8867 6.47034 48.4568 7.17847L31.8495 34.5317C31.4196 35.2398 30.497 35.4653 29.7888 35.0354C29.0807 34.6054 28.8552 33.6829 29.2851 32.9747L45.8924 5.62153C46.3224 4.91341 47.2449 4.68789 47.9531 5.11782ZM41.0025 4.15589L42.2698 6.37296L40.4899 9.30448L38.398 5.64463C37.9869 4.92541 38.2367 4.00909 38.9559 3.59799C39.6751 3.18688 40.5914 3.43666 41.0025 4.15589ZM45.3741 17.8493L54.6534 34.0834C55.0645 34.8026 55.9808 35.0524 56.7001 34.6413C57.4193 34.2301 57.6691 33.3138 57.258 32.5946L47.154 14.9178L45.3741 17.8493Z"
+                        fill="white" />
+                </svg>
+                <h3>Đã có tài khoản? Chào mừng bạn quay trở lại</h3>
+                <button class="register__toggle">Đăng nhập</button>
+            </div>
+        </div>
+        <div class="register__right">
+
+            <form action="/register" method="POST" class="register__form" novalidate>
+                <h1 class="register__register">Đăng kí</h1>
+                <label for="email" class="register__label register__label-email">Email</label>
+
+                <input name='email' class="register__input register__input-email" spellcheck="false" autocomplete="off"
+                    required id='email' type="text" maxlength="50" minlength="10">
+
+                <div class="input__error"></div>
+                <label for="username" class="register__label register__label-username">Tài khoản</label>
+
+                <input name='username' class="register__input register__input-username" spellcheck="false"
+                    autocomplete="off" required id='username' type="text" maxlength="50" minlength="10">
+
+                <div class="input__error"></div>
+                <label for="password" class="register__label register__label-password">Mật khẩu</label>
+
+                <input name='password' class=" register__input register__input-password" spellcheck="false"
+                    autocomplete="off" required id='password' type="password" maxlength="50" minlength="10">
+
+                <div class="input__error"></div>
+                <button class="register__button">hoàn tất</button>
+            </form>
+            <form action="/login" method="POST" class="login__form" novalidate>
+                <h1 class="login__login"> Đăng nhập</h1>
+                <label for="usernamee" class="login__label login__label-username">Tài khoản</label>
+
+                <input name='username' class="register__input register__input-username" spellcheck="false"
+                    autocomplete="off" required id='usernamee' type="text" maxlength="50" minlength="10">
+
+                <div class="input__error"></div>
+                <label for="passwordd" class="login__label login__label-password">Mật khẩu</label>
+
+                <input name='password' class="login__input login__input-password" spellcheck="false" autocomplete="off"
+                    required id='passwordd' type="password" maxlength="50" minlength="10">
+
+                <div class="input__error"></div>
+                <button class="register__button">hoàn tất</button>
+            </form>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollTrigger/1.0.6/ScrollTrigger.min.js"
+            integrity="sha512-+LXqbM6YLduaaxq6kNcjMsQgZQUTdZp7FTaArWYFt1nxyFKlQSMdIF/WQ/VgsReERwRD8w/9H9cahFx25UDd+g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="
+    https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js
+    "></script>
+        <script>
+            //client-side form validating 
+            document.addEventListener('DOMContentLoaded', function () {
+                try {
+                    class FormValidator {
+                        constructor(selector) {
+                            this.form = document.querySelector(selector);
+                            if (!this.form) return; // If form doesn't exist, exit the constructor
+                            this.inputsWithErrors = new Set(); //kind of like an array
+                            this.form.addEventListener("submit", e => {
+                                e.preventDefault();
+                                this.validateAllInputs(); // Validate all inputs on submit
+                                if (!this.hasErrors) {
+                                    this.form.submit();
+                                }
+                            });
+
+                        }
+
+                        get hasErrors() {
+                            return this.inputsWithErrors.size > 0;
+                        }
+
+                        register(selector, check) {
+                            const inputField = this.form.querySelector(selector);
+                            if (!inputField) return; // If inputField doesn't exist, exit the method
+                            const errorElement = inputField.closest(".input").querySelector(".input__error");
+                            //basically selecting the error message element
+
+                            const execute = (hideErrors) => {
+                                const { pass, error } = check(inputField.value, inputField);
+
+                                if (!hideErrors) {
+                                    errorElement.textContent = error || "";
+                                }
+
+                                if (!pass) {
+                                    this.inputsWithErrors.add(inputField);
+                                } else {
+                                    this.inputsWithErrors.delete(inputField);
+                                }
+                            };
+
+                            inputField.addEventListener("change", () => execute());
+                            execute(true);
+                        }
+
+                        validateAllInputs() {
+                            const inputs = this.form.querySelectorAll("input");
+                            inputs.forEach(input => {
+                                const errorElement = input.nextElementSibling;//the error message
+                                input.addEventListener('input', () => {
+                                    if (this.inputsWithErrors.has(input)) {
+                                        input.classList.remove("input--error"); // Remove error highlighting
+                                        errorElement.textContent = ""; // Clear error message
+                                        this.inputsWithErrors.delete(input); // Remove from error set if immediate feedback desired
+                                    }
+                                });
+
+                                if (input.value.trim() === "") {
+                                    // If input is empty, mark it as error
+                                    input.classList.add("input--error"); // Highlight input
+                                    errorElement.textContent = "Vui lòng nhập giá trị";
+                                    this.inputsWithErrors.add(input);
+
+                                } else {
+                                    input.classList.remove("input--error");
+                                    errorElement.textContent = "";
+                                    this.inputsWithErrors.delete(input);
+                                }
+                            });
+                        }
+                    }
+
+                    // Initialization with form selector
+                    const fv = new FormValidator(".register__form");
+                    window.fv = fv; // Make it available globally if needed
+                } catch (error) {
+                    console.error("Form validation setup error:", error);
+                }
+            });
+        </script>
+        <script>
+            const signUp = document.querySelector('.register__right')
+            const signUpToggle = document.querySelector('.register__toggle')
+            const signUpHeading = document.querySelector('.register__heading')
+            const signUpForm = document.querySelector('.register__form')
+            const loginForm = document.querySelector('.login__form')
+            const registerHeading = document.querySelector('.register__register')
+            const loginHeading = document.querySelector('.login__login')
+            const registerH3 = document.querySelector('.register__heading h3')
+
+            const registerTL = gsap.timeline({ ease: 'elastic.out(1,0.3)', duration: '.5s' })
+
+            let registerStatus = false
+
+            registerTL.paused(true)
+            registerTL
+                .to(signUp, {
+                    transform: 'translateY(-35rem)',
+
+                })
+                .to(signUpHeading, {
+
+                }, '<')
+
+
+            signUpForm.classList.add('active')
+            loginForm.classList.add('active')
+
+            signUpToggle.addEventListener('click', () => {
+                if (!registerStatus) {
+                    registerTL.play()
+                    registerStatus = true
+
+                    signUpToggle.innerText = 'Đăng kí'
+                    registerH3.innerText = 'Hãy là một phần của TraiCam'
+
+                } else {
+                    registerTL.reverse()
+                    registerStatus = false
+
+                    signUpToggle.innerText = 'Đăng nhập'
+                    registerH3.innerText = 'Đã có tài khoản? Chào mừng bạn quay trở lại'
+                }
+            })
+        </script>
+    </body>
+
+</html>

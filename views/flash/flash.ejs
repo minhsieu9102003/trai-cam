@@ -1,0 +1,85 @@
+<% if(success && success.length){ %>
+    <div class="flash__success">
+        <svg class="flash__tick">
+            <use xlink:href="/img/sprite.svg#icon-check-circle"></use>
+        </svg>
+        <h5>
+            <%= success %>
+        </h5>
+        <button onclick="this.parentElement.style.display='none';" class="flash__close">
+            <svg class="flash__cross">
+                <use xlink:href="/img/sprite.svg#icon-x"></use>
+            </svg>
+        </button>
+        <div class="flash__progress"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollTrigger/1.0.6/ScrollTrigger.min.js"
+        integrity="sha512-+LXqbM6YLduaaxq6kNcjMsQgZQUTdZp7FTaArWYFt1nxyFKlQSMdIF/WQ/VgsReERwRD8w/9H9cahFx25UDd+g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="
+    https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js
+    "></script>
+    <script>
+        const tl = gsap.timeline({ ease: 'power4.out', duration: '1s' })
+        const flash = document.querySelector('.flash__success')
+        const progress = document.querySelector('.flash__progress')
+        tl.from(flash, {
+            xPercent: '60'
+        })
+            .to(progress, {
+                width: '0',
+                duration: 2
+            }, '<')
+            .to(flash, {
+                ease: 'power4.out',
+                xPercent: '120',
+                display: 'none',
+
+            }, '+=.2')
+
+    </script>
+    <% } %>
+        <% if(error && error.length){%>
+
+            <div class="error__success">
+                <svg class="error__tick">
+                    <use xlink:href="/img/sprite.svg#icon-alert-circle"></use>
+                </svg>
+                <h5>
+                    <%= error %>
+                </h5>
+                <button onclick="this.parentElement.style.display='none';" class="error__close">
+                    <svg class="error__cross">
+                        <use xlink:href="/img/sprite.svg#icon-x"></use>
+                    </svg>
+                </button>
+                <div class="error__progress"></div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollTrigger/1.0.6/ScrollTrigger.min.js"
+                integrity="sha512-+LXqbM6YLduaaxq6kNcjMsQgZQUTdZp7FTaArWYFt1nxyFKlQSMdIF/WQ/VgsReERwRD8w/9H9cahFx25UDd+g=="
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="
+            https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js
+            "></script>
+            <script>
+                const tl1 = gsap.timeline({ ease: 'power4.out', duration: '1s' })
+                const flash1 = document.querySelector('.error__success')
+                const progress1 = document.querySelector('.error__progress')
+                tl1.from(flash1, {
+                    xPercent: '60'
+                })
+                    .to(progress1, {
+                        width: '0',
+                        duration: 2
+                    }, '<')
+                    .to(flash1, {
+                        ease: 'power4.out',
+                        xPercent: '120',
+                        display: 'none',
+
+                    }, '+=.2')
+
+            </script>
+            <% } %>

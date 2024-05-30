@@ -1,0 +1,137 @@
+.flash {
+
+    &__success {
+        background-color: white;
+        position: absolute;
+        position: fixed;
+        z-index: 100000;
+        right: 0;
+        width: 20rem;
+        margin-top: .5rem;
+        height: 5rem;
+        border-left: 20px solid #90E793;
+        margin-left: auto;
+        margin-right: .5rem;
+        border-radius: 10px;
+        box-shadow: 0 .2rem .2rem rgba(0, 0, 0, .2);
+        color: #90E793;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: .5rem;
+
+        h5 {
+
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+    }
+
+    &__close {
+        display: flex;
+        align-self: flex-start;
+        background-color: transparent;
+        border: 1px solid transparent;
+    }
+
+    &__cross {
+        height: 1.3rem;
+        width: 1.3rem;
+        fill: $color-grey;
+        margin-left: auto;
+
+        cursor: pointer;
+        transition: all .2s ease-in-out;
+
+        &:hover {
+            fill: black;
+            scale: 1.4;
+        }
+    }
+
+    &__tick {
+        height: 2.5rem;
+        width: 2.5rem;
+        fill: #90E793;
+        margin-left: .5rem;
+
+    }
+
+    &__progress {
+        position: absolute;
+        height: 3px;
+        width: 100%;
+        background-color: #90E793;
+        bottom: 0;
+        transform-origin: right;
+    }
+}
+
+.error {
+
+    &__success {
+        background-color: white;
+        position: absolute;
+        position: fixed;
+        z-index: 100000;
+        right: 0;
+        width: 20rem;
+        margin-top: .5rem;
+        height: 5rem;
+        border-left: 20px solid $color-delete;
+        margin-left: auto;
+        margin-right: .5rem;
+        border-radius: 10px;
+        box-shadow: 0 .2rem .2rem rgba(0, 0, 0, .2);
+        color: $color-delete;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: .5rem;
+
+        h5 {
+
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+    }
+
+    &__close {
+        display: flex;
+        align-self: flex-start;
+        background-color: transparent;
+        border: 1px solid transparent;
+    }
+
+    &__cross {
+        height: 1.3rem;
+        width: 1.3rem;
+        fill: $color-grey;
+        margin-left: auto;
+
+        cursor: pointer;
+        transition: all .2s ease-in-out;
+
+        &:hover {
+            fill: black;
+            scale: 1.4;
+        }
+    }
+
+    &__tick {
+        height: 2.5rem;
+        width: 2.5rem;
+        fill: $color-delete;
+        margin-left: .5rem;
+
+    }
+
+    &__progress {
+        position: absolute;
+        height: 3px;
+        width: 100%;
+        background-color: $color-delete;
+        bottom: 0;
+        transform-origin: left;
+    }
+}

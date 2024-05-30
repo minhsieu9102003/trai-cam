@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+
+
+</head>
+
+<body data-logged-in="<%= !!currentUser %>" data-show-mapbox-token="<%= process.env.MAPBOX_TOKEN %>">
+
+    <%- include('../layouts/navbar') %>
+        <%- include('../flash/flash') %>
+
+
+
+            <div class="show-container">
+                <div class="show__slider" data-images=<%=JSON.stringify(campground.image.map(img=> img.url)) %>>
+                    <button class="show__slider-left"><svg class="">
+                            <use xlink:href="/img/sprite.svg#icon-angle-right"></use>
+                        </svg></button>
+
+
+
+                    <img src="" alt="" id="slider-image">
+                    <button class="show__slider-right"><svg class="">
+                            <use xlink:href="/img/sprite.svg#icon-angle-right"></use>
+                        </svg></button>
+                    <button class="close-btn">
+                        <svg class="">
+                            <use xlink:href="/img/sprite.svg#icon-x"></use>
+                        </svg>
+                    </button>
+
+                </div>
+                <a href="/campgrounds" class="show__back">
+                    <svg class="">
+                        <use xlink:href="/img/sprite.svg#icon-forward"></use>
+                    </svg></a>
+                <h1 class="show__header">
+                    <%= campground.title %>
+                </h1>
+                <div class="author">
+                    <span>by</span><a href="#">
+                        <%= campground.author.username %>
+                    </a>
+
+                </div>
+                <div class="show__photo-container">
+                    <% for(let i=0; i < campground.image.length && i < 3; i++) { %>
+                        <img src="<%= campground.image[i].url %>" alt="Image <%= i + 1 %>"
+                            class='show__photo show__photo-<%= i + 1 %>' data-index="<%= i %>">
+                        <% } %>
+                </div>
+
+
+                <div class="show__update-container">
+                    <div class="show__update-heart">
+
+                        <svg class="">
+                            <use xlink:href="/img/sprite.svg#icon-heart"></use>
+                        </svg>
+                        <h6 class="show__update-heart-number">11</h6>
+                    </div>
+                    <div class="show__update-star">
+
+                        <svg class="">
+                            <use xlink:href="/img/sprite.svg#icon-star"></use>
+                        </svg>
+                        <h6 class="show__update-star-number">
+                            <% let totalRating=0; let averageRating=0; if (campground.review &&
+                                campground.review.length> 0)
+                                {
+                                for(let review of campground.review) {
+                                totalRating += review.rating;
+                                }
+                                averageRating = totalRating / campground.review.length;
+                                averageRating = averageRating.toFixed(2); // Formats the average to two decimal
+                                // places
+                                }
+                                %>
+                                <%= averageRating %> (<%= campground.review.length %> đánh giá)
+                        </h6>
+                    </div>
+                    <span class="show__update-filter-1">mô tả</span>
+                    <span class="show__update-filter-2">đánh giá</span>
+                    <% if(currentUser && campground.author.equals(currentUser)){ %>
+                        <a href='/campgrounds/<%= campground._id %>/edit' class="show__update-update">chỉnh sửa</a>
+                        <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method='POST'>
+                            <button class="show__update-delete">xóa</button>
+                        </form>
+                        <% } %>
+                            <span class="show__update-price">
+                                <%=campground.price%>VND/đêm
+                            </span>
+
+                </div>
+
+                <div class="detail-container">
+                    <div class="detail-container__paragraph-container">
+                        <div class="detail-container__paragraph"
+                            data-campground='<%-JSON.stringify(campground.geometry)%>'
+                            data-campground-image='<%-JSON.stringify(campground.image)%>'
+                            data-campground-title='<%-JSON.stringify(campground.title)%>'
+                            data-campground-price='<%-JSON.stringify(campground.price)%>'>
+                            <div>・địa điểm: <%= campground.location %>
+                            </div>
+                            <div id='show__map' class="show__map"></div>
+                            <div>・mô tả: <%=campground.description%>
+                            </div>
+                        </div>
+
+                        <form action="/campgrounds/<%= campground._id %>/review" method="POST"
+                            class="detail-container__star-form" novalidate>
+                            <img src="/img/avt-2.png" alt="">
+                            <label for="star">Đánh giá</label>
+                            <div class="star-container">
+                                <svg class="form__star" data-value='1'>
+                                    <use xlink:href="/img/sprite.svg#icon-star"></use>
+                                </svg>
+                                <svg class="form__star" data-value='2'>
+                                    <use xlink:href="/img/sprite.svg#icon-star"></use>
+                                </svg>
+                                <svg class="form__star" data-value='3'>
+                                    <use xlink:href="/img/sprite.svg#icon-star"></use>
+                                </svg>
+                                <svg class="form__star" data-value='4'>
+                                    <use xlink:href="/img/sprite.svg#icon-star"></use>
+                                </svg>
+                                <svg class="form__star" data-value='5'>
+                                    <use xlink:href="/img/sprite.svg#icon-star"></use>
+                                </svg>
+
+                            </div>
+                            <div id="current-rating">Rating: 0</div>
+
+                            <input type="hidden" id="star" name="review[rating]" class="form__star-input">
+                            <label class='feedback-label' for="a">Phản hồi</label>
+                            <textarea maxlength="20000" id="a" cols="30" rows="10" name="review[body]"
+                                required></textarea>
+                            <button>Đăng</button>
+
+                        </form>
+
+                        <ul class="review">
+                            <% for (let review of campground.review ){ %>
+                                <div class="review__element">
+                                    <div class="review__top">
+                                        <h3>
+                                            <%= review.rating %>
+                                        </h3>
+                                        <svg class="review__star">
+                                            <use xlink:href="/img/sprite.svg#icon-star"></use>
+                                        </svg>
+                                        <img src="/img/avt-2.png" alt="">
+                                        <h4>
+                                            <%= review.author.username %>
+                                        </h4>
+
+                                        <% if(currentUser && review.author.equals(currentUser)){ %>
+                                            <form
+                                                action="/campgrounds/<%= campground._id %>/review/<%= review._id %>?_method=DELETE"
+                                                method="POSt"><button>xóa</button></form>
+                                            <% } %>
+                                    </div>
+
+                                    <p class='review__body'>
+                                        <%= review.body %>
+                                    </p>
+
+                                </div>
+                                <% } %>
+                        </ul>
+                    </div>
+                </div>
+
+                <svg class="read-more">
+                    <use xlink:href="/img/sprite.svg#icon-forward"></use>
+                </svg>
+            </div>
+            </div>
+            <%- include('../layouts/footer') %>
+                <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollTrigger/1.0.6/ScrollTrigger.min.js"
+                    integrity="sha512-+LXqbM6YLduaaxq6kNcjMsQgZQUTdZp7FTaArWYFt1nxyFKlQSMdIF/WQ/VgsReERwRD8w/9H9cahFx25UDd+g=="
+                    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                <script src="
+    https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js
+    "></script>
+                <script src="/js/base/smoothScroll.js"></script>
+                <script src="/js/base/navigationAvatarAnimation.js"></script>
+                <script src="/js/base/footerAnimation.js"></script>
+                <script src="/js/show/contentExpandButton.js"></script>
+                <script src="/js/show/buttonState.js"></script>
+                <script src="/js/show/starInput.js"></script>
+                <script src="/js/show/reviewValidation.js"></script>
+                <script>
+                    // Get references to DOM elements
+                    const photoContainer = document.querySelector('.show__photo-container');
+                    const slider = document.querySelector('.show__slider');
+                    const sliderImage = document.getElementById('slider-image');
+                    const closeButton = slider.querySelector('.close-btn');
+                    const leftButton = slider.querySelector('.show__slider-left');
+                    const rightButton = slider.querySelector('.show__slider-right');
+
+                    let currentImageIndex = 0; // Current image index
+                    const images = JSON.parse(slider.getAttribute('data-images'));
+
+                    // Function to update the slider image based on currentImageIndex
+                    function updateSliderImage() {
+                        sliderImage.src = images[currentImageIndex]; // Update the src of slider image
+                    }
+
+                    // Event listener for photo clicks to open the slider
+                    photoContainer.addEventListener('click', function (event) {
+                        if (event.target.classList.contains('show__photo')) {
+                            currentImageIndex = parseInt(event.target.getAttribute('data-index'), 10);
+                            updateSliderImage();
+                            slider.style.display = 'flex';
+                            document.body.style.overflow = 'hidden'; // Disable scrolling on the body
+                        }
+                    });
+
+                    // Event listener for the close button
+                    closeButton.addEventListener('click', function (event) {
+                        slider.style.display = 'none';
+                        document.body.style.overflow = 'auto'; // Enable scrolling on the body
+                    });
+
+                    // Event listener for the right button
+                    rightButton.addEventListener('click', function (event) {
+                        if (currentImageIndex < images.length - 1) {
+                            currentImageIndex++; // Increment index
+                        } else {
+                            currentImageIndex = 0; // Loop back to the first image
+                        }
+                        updateSliderImage();
+                    });
+
+                    // Event listener for the left button
+                    leftButton.addEventListener('click', function (event) {
+                        if (currentImageIndex > 0) {
+                            currentImageIndex--; // Decrement index
+                        } else {
+                            currentImageIndex = images.length - 1; // Loop back to the last image
+                        }
+                        updateSliderImage();
+                    });
+
+
+                </script>
+                <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+                <script
+                    src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v1.0.0/mapbox-gl-language.js'></script>
+                <script src="https://developer.mozilla.org/en-US/docs/Web/API/Element.scrollIntoView"></script>
+                <script src="/js/show/showMap.js"></script>
+
+
+
+
+</body>
+
+
+</html>
