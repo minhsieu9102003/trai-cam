@@ -48,6 +48,14 @@
                     autocomplete="off" required id='password' type="password" maxlength="50" minlength="10">
 
                 <div class="input__error"></div>
+                <div class="role-container">
+                    <label for="role" class="register__label register__label-role">Vai trò</label>
+                    <select name="role" id="role" class="register__input register__input-role">
+                        <option value="buyer">Người mua</option>
+                        <option value="seller">Người bán</option>
+                    </select>
+                </div>
+
                 <button class="register__button">hoàn tất</button>
             </form>
             <form action="/login" method="POST" class="login__form" novalidate>
@@ -173,7 +181,7 @@
             registerTL.paused(true)
             registerTL
                 .to(signUp, {
-                    transform: 'translateY(-35rem)',
+                    transform: 'translateY(-37rem)',
 
                 })
                 .to(signUpHeading, {

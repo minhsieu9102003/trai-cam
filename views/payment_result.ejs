@@ -1,0 +1,25 @@
+<!-- views/payment_result.ejs -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Payment Result</title>
+</head>
+
+<body>
+    <h1>Payment Result</h1>
+    <% if (code==='00' ) { %>
+        <p>Your payment was successful!</p>
+        <p>Order ID: <%= order.orderId %>
+        </p>
+        <p>Amount: <%= order.amount %> VND</p>
+        <p>Reservation Status: <%= order.reservation.status %>
+        </p>
+        <% } else { %>
+            <p>Your payment failed with code: <%= code %>
+            </p>
+            <% } %>
+                <a href="/campgrounds">Back to Campgrounds</a>
+</body>
+
+</html>

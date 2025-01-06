@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết đặt chỗ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('../layouts/navbar') %>
+
+        <div class="reservation-detail-container">
+            <div class="reservation-receipt-card">
+                <div class="reservation-receipt-header">
+                    <h1>🧾 Chi tiết đặt chỗ</h1>
+                    <p><em>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!</em></p>
+                </div>
+
+                <% if (reservation.campground.image && reservation.campground.image.length> 0) { %>
+                    <div class="reservation-campground-card">
+                        <a href="/campgrounds/<%= reservation.campground._id %>">
+                            <img src="<%= reservation.campground.image[0].url %>"
+                                alt="<%= reservation.campground.title %>" class="reservation-campground-img">
+                        </a>
+                        <div class="campground-card-text">
+                            <h3>
+                                <%= reservation.campground.title %>
+                            </h3>
+                            <p><strong>Địa điểm:</strong>
+                                <%= reservation.campground.location %>
+                            </p>
+                        </div>
+                    </div>
+                    <% } %>
+
+                        <div class="reservation-receipt-section">
+                            <h2>🧑 Thông tin khách hàng</h2>
+                            <p><strong>Tên khách:</strong>
+                                <%= reservation.user.username %>
+                            </p>
+                            <p><strong>Email:</strong>
+                                <%= reservation.user.email %>
+                            </p>
+                        </div>
+
+                        <div class="reservation-receipt-section">
+                            <h2>🗓️ Thông tin đặt chỗ</h2>
+                            <p><strong>Số người:</strong>
+                                <%= reservation.numberOfPeople %>
+                            </p>
+                            <p><strong>Ngày đến:</strong>
+                                <%= reservation.checkIn.toDateString() %>
+                            </p>
+                            <p><strong>Ngày đi:</strong>
+                                <%= reservation.checkOut.toDateString() %>
+                            </p>
+                            <p><strong>Ghi chú:</strong>
+                                <%= reservation.note || 'Không có' %>
+                            </p>
+                        </div>
+
+                        <div class="reservation-receipt-section">
+                            <h2>💳 Thông tin thanh toán</h2>
+                            <% if (reservation.payment) { %>
+                                <p><strong>Order ID:</strong>
+                                    <%= reservation.payment.orderId %>
+                                </p>
+                                <p><strong>Số tiền:</strong>
+                                    <%= reservation.payment.amount %> VND
+                                </p>
+                                <p><strong>Mã giao dịch:</strong>
+                                    <%= reservation.payment.transactionNo %>
+                                </p>
+                                <p><strong>Ngân hàng:</strong>
+                                    <%= reservation.payment.bankCode %>
+                                </p>
+                                <p><strong>Loại thẻ:</strong>
+                                    <%= reservation.payment.cardType %>
+                                </p>
+                                <p><strong>Ngày thanh toán:</strong>
+                                    <%= reservation.payment.payDate %>
+                                </p>
+                                <% } else { %>
+                                    <p class="reservation-unpaid"><em>⚠️ Chưa thanh toán</em></p>
+                                    <% } %>
+                        </div>
+
+                        <div class="reservation-receipt-footer">
+                            <p><em>Mọi thắc mắc vui lòng liên hệ hotline: <strong>1900-xxxx</strong></em></p>
+                            <a href="/campgrounds" class="reservation-back-button">🏠 Trở về trang chủ</a>
+                        </div>
+            </div>
+        </div>
+
+        <%- include('../layouts/footer') %>
+</body>
+
+</html>

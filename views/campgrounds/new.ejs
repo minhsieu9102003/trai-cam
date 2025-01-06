@@ -72,6 +72,13 @@
                     id='location' type="text" name="campground[location]" maxlength="50">
 
                 <div class="input__error"></div>
+
+                <label for="location" class="new__label new__label-location">Sức chứa</label>
+
+                <input class="new__input new__input-location" spellcheck="false" autocomplete="off" required
+                    id='location' type="number" name="campground[capacity]" maxlength="50">
+
+                <div class="input__error"></div>
                 <!-- location field -->
 
                 <!-- description field -->
@@ -118,7 +125,57 @@
                     })
                 </script>
 
+                <!-- Include Socket.IO client script -->
+                <script src="/socket.io/socket.io.js"></script>
+                <script>
+                    const socket = io();
 
+                    socket.on('connect', () => {
+                        console.log('Connected to server via Socket.IO');
+                    });
+
+                    // Listen for new notifications
+                    socket.on('newNotification', (notification) => {
+                        displayNotification(notification);
+                    });
+
+                    function displayNotification(notification) {
+                        // Update the notification dropdown or list
+                        const notificationList = document.getElementById('notificationList');
+                        const notificationBadge = document.getElementById('notificationBadge');
+
+                        if (notificationList && notificationBadge) {
+                            const listItem = document.createElement('li');
+                            listItem.innerHTML = `
+                <a href="/notifications/${notification._id}">
+                    ${notification.content}
+                </a>
+            `;
+                            notificationList.prepend(listItem);
+
+                            // Update notification count badge
+                            let count = parseInt(notificationBadge.textContent) || 0;
+                            notificationBadge.textContent = count + 1;
+                        }
+                    }
+                </script>
+                <script>
+                    function toggleDropdown(event) {
+                        event.preventDefault();
+                        const dropdownMenu = document.querySelector('.dropdown-menu');
+                        dropdownMenu.classList.toggle('show');
+                    }
+
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', function (e) {
+                        const dropdownMenu = document.querySelector('.dropdown-menu');
+                        const notificationsDropdown = document.getElementById('notificationsDropdown');
+                        if (!notificationsDropdown.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                            dropdownMenu.classList.remove('show');
+                        }
+                    });
+
+                </script>
 </body>
 
 </html>

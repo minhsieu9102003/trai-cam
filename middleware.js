@@ -67,3 +67,19 @@ module.exports.isAdmin = (req, res, next) => {
     }
     next()
 }
+
+module.exports.isSeller = (req, res, next) => {
+    if (req.isAuthenticated() && req.user.role === 'seller') {
+        return next();
+    }
+    req.flash('error', 'Bạn không có quyền truy cập vào trang này');
+    res.redirect('/campgrounds');
+};
+
+module.exports.isBuyer = (req, res, next) => {
+    if (req.isAuthenticated() && req.user.role === 'buyer') {
+        return next();
+    }
+    req.flash('error', 'Bạn không có quyền truy cập vào trang này');
+    res.redirect('/campgrounds');
+};

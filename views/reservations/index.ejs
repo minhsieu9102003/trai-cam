@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host Reservations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('../layouts/navbar') %>
+
+        <div class="reservation-host-container">
+            <h1>Reservations for Your Campgrounds</h1>
+
+            <!-- Tabs for Filtering -->
+            <div class="reservation-tabs">
+                <button class="tab active" data-filter="all">Tất cả</button>
+                <button class="tab" data-filter="upcoming">Sắp tới</button>
+                <button class="tab" data-filter="week">1 tuần trước</button>
+                <button class="tab" data-filter="twoweeks">2 tuần trước</button>
+                <button class="tab" data-filter="month">1 tháng trước</button>
+                <button class="tab" data-filter="year">1 năm trước</button>
+                <button class="tab" data-filter="cancelled">Đã hủy</button>
+            </div>
+            <div class="reservation-search">
+                <input type="text" id="reservationSearch" placeholder="Tìm kiếm trong đặt chỗ...">
+            </div>
+            <!-- Reservation Cards -->
+            <div class="reservation-list">
+                <% reservations.forEach(reservation=> { %>
+                    <% let status=reservation.status; %>
+                        <% let today=new Date(); %>
+                            <% let checkInDate=new Date(reservation.checkIn); %>
+
+                                <div class="reservation-card"
+                                    data-title="<%= reservation.campground.title ? reservation.campground.title.toLowerCase() : '' %>"
+                                    data-buyer="<%= reservation.user.username ? reservation.user.username.toLowerCase() : '' %>"
+                                    data-payment="<%= reservation.paymentMethod ? reservation.paymentMethod.toLowerCase() : '' %>"
+                                    data-checkin="<%= reservation.checkIn ? reservation.checkIn.toISOString() : '' %>"
+                                    data-checkout="<%= reservation.checkOut ? reservation.checkOut.toISOString() : '' %>"
+                                    data-status="<%= reservation.status ? reservation.status.toLowerCase() : 'pending' %>">
+
+                                    <div class="reservation-card__img-container">
+                                        <% if (reservation.campground.image && reservation.campground.image.length> 0) {
+                                            %>
+                                            <img src="<%= reservation.campground.image[0].url %>" alt="Campground Image"
+                                                class="reservation-card__img">
+                                            <% } else { %>
+                                                <img src="/img/default-camp.jpg" alt="Default Image"
+                                                    class="reservation-card__img">
+                                                <% } %>
+                                    </div>
+
+                                    <div class="reservation-card__details">
+                                        <p class="reservation-card__title">
+                                            Campground: <%= reservation.campground.title || 'N/A' %>
+                                        </p>
+                                        <p class="reservation-card__info">
+                                            <strong>Buyer:</strong>
+                                            <%= reservation.user.username || 'Unknown' %>
+                                        </p>
+                                        <p class="reservation-card__info">
+                                            <strong>Number of People:</strong>
+                                            <%= reservation.numberOfPeople %>
+                                        </p>
+                                        <p class="reservation-card__info">
+                                            <strong>Check-In:</strong>
+                                            <%= reservation.checkIn ? reservation.checkIn.toDateString() : 'N/A' %>
+                                        </p>
+                                        <p class="reservation-card__info">
+                                            <strong>Check-Out:</strong>
+                                            <%= reservation.checkOut ? reservation.checkOut.toDateString() : 'N/A' %>
+                                        </p>
+                                        <p class="reservation-card__info">
+                                            <strong>Status:</strong>
+                                            <%= reservation.status || 'Pending' %>
+                                        </p>
+                                        <a href="/reservations/<%= reservation._id %>"
+                                            class="reservation-card__link">View Details</a>
+                                    </div>
+                                </div>
+
+
+                                <% }) %>
+            </div>
+        </div>
+
+        <a href="/campgrounds" class="reservation-back-link">Back to Campgrounds</a>
+
+        <%- include('../layouts/footer') %>
+
+            <script>
+                // Filter Logic
+                document.addEventListener('DOMContentLoaded', () => {
+                    const tabs = document.querySelectorAll('.tab');
+                    const reservations = document.querySelectorAll('.reservation-card');
+
+                    tabs.forEach(tab => {
+                        tab.addEventListener('click', () => {
+                            const filter = tab.dataset.filter;
+                            const today = new Date();
+
+                            // Remove active class from other tabs
+                            tabs.forEach(t => t.classList.remove('active'));
+                            tab.classList.add('active');
+
+                            reservations.forEach(card => {
+                                const checkInDate = new Date(card.dataset.checkin);
+                                const status = card.dataset.status;
+                                card.classList.remove('hidden');  // Reset visibility
+
+                                let hide = false;
+
+                                // Filter Logic for Tabs
+                                if (filter === 'upcoming' && checkInDate <= today) {
+                                    hide = true;  // Only future reservations show in "Sắp tới"
+                                }
+                                else if (filter === 'week' && (checkInDate > today || (today - checkInDate) > 7 * 24 * 60 * 60 * 1000)) {
+                                    hide = true;
+                                }
+                                else if (filter === 'twoweeks' && (checkInDate > today || (today - checkInDate) > 14 * 24 * 60 * 60 * 1000)) {
+                                    hide = true;
+                                }
+                                else if (filter === 'month' && (checkInDate > today || (today - checkInDate) > 30 * 24 * 60 * 60 * 1000)) {
+                                    hide = true;
+                                }
+                                else if (filter === 'year' && (checkInDate > today || (today - checkInDate) > 365 * 24 * 60 * 60 * 1000)) {
+                                    hide = true;
+                                }
+                                else if (filter === 'cancelled' && status !== 'Cancelled') {
+                                    hide = true;
+                                }
+
+                                // Apply or remove hidden class
+                                if (hide) {
+                                    card.classList.add('hidden');
+                                }
+                            });
+                        });
+                    });
+                });
+                document.addEventListener('DOMContentLoaded', () => {
+                    const searchInput = document.getElementById('reservationSearch');
+                    const reservations = document.querySelectorAll('.reservation-card');
+
+                    // Prevent Enter from refreshing the page
+                    searchInput.addEventListener('keypress', (event) => {
+                        if (event.key === 'Enter') {
+                            event.preventDefault();  // Stop form submission on Enter
+                        }
+                    });
+
+                    // Live Search Event
+                    searchInput.addEventListener('input', () => {
+                        const query = searchInput.value.toLowerCase();
+
+                        reservations.forEach(card => {
+                            const title = card.dataset.title;
+                            const buyer = card.dataset.buyer;
+                            const payment = card.dataset.payment;
+
+                            // Match any field (title, buyer, payment)
+                            if (title.includes(query) || buyer.includes(query) || payment.includes(query)) {
+                                card.classList.remove('hidden');
+                            } else {
+                                card.classList.add('hidden');
+                            }
+                        });
+                    });
+                });
+
+            </script>
+</body>
+
+</html>

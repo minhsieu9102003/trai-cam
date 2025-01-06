@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Seller Campgrounds</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+</head>
+
+<body data-logged-in="<%= !!currentUser %>" data-mapbox-token="<%= process.env.MAPBOX_TOKEN %>"
+    data-index-camp='<%= JSON.stringify(campgrounds) %>'>
+    <svg class=" down-bottom">
+        <use xlink:href="/img/sprite.svg#icon-forward"></use>
+    </svg>
+    <%- include('../layouts/navbar') %>
+        <%- include('../flash/flash') %>
+            <div class="search-container">
+                <div class="search">
+                    <a href="" class="search__icon-container">
+                        <svg class='search__icon' width="14" height="14" viewBox="0 0 14 14" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_142_235)">
+                                <path
+                                    d="M6 11.5C9.03757 11.5 11.5 9.03757 11.5 6C11.5 2.96243 9.03757 0.5 6 0.5C2.96243 0.5 0.5 2.96243 0.5 6C0.5 9.03757 2.96243 11.5 6 11.5Z"
+                                    stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M13.5 13.5L10 10" stroke="black" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_142_235">
+                                    <rect width="14" height="14" fill="white" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </a>
+                    <input type="text" class="search__input" spellcheck="false">
+
+                </div>
+                <div id="searchResults" class="search-results"></div>
+            </div>
+
+
+            <!-- </div>
+            <input class="index-map-search" id="index-map-search">
+            <div class="map" id="map">
+
+            </div>
+
+            <div class="btn-container">
+                <button class="map-btn">
+
+                    <svg class="map-btn__svg-1">
+                        <use xlink:href="img/sprite.svg#icon-angle-double-up"></use>
+                    </svg>
+                    <svg class="map-btn__svg-2">
+                        <use xlink:href="img/sprite.svg#icon-angle-double-up"></use>
+                    </svg>
+                </button>
+            </div> -->
+            <div class="navigation__line"></div>
+            <!-- <h2>Reservations</h2>
+            <ul class="reservation-list">
+                <% for(let reservation of reservations) { %>
+                    <li class="reservation-item">
+                        <p><strong>Campground:</strong>
+                            <%= reservation.campground.title %>
+                        </p>
+                        <p><strong>Buyer:</strong>
+                            <%= reservation.user.username %>
+                        </p>
+                        <p><strong>Number of People:</strong>
+                            <%= reservation.numberOfPeople %>
+                        </p>
+                        <p><strong>Check-In:</strong>
+                            <%= reservation.checkIn.toDateString() %>
+                        </p>
+                        <p><strong>Check-Out:</strong>
+                            <%= reservation.checkOut.toDateString() %>
+                        </p>
+                        <p><strong>Note:</strong>
+                            <%= reservation.note %>
+                        </p>
+                        <p><strong>Payment Method:</strong>
+                            <%= reservation.paymentMethod %>
+                        </p>
+                    </li>
+                    <% } %>
+            </ul> -->
+            <div class='filter-container'>
+                <a href="" class="filter">của bạn</a>
+            </div>
+            <ul class="camp-list">
+                <% for(let campground of campgrounds){ %>
+
+                    <li class="camp-item">
+                        <img class="camp-item__photo" src=<%=campground.image[0].url %>>
+                        <div class="camp-item__title">
+                            <h3 class="">
+                                <%=campground.title %>
+
+                            </h3>
+                            <h5 class="">
+                                <% let totalRating=0; let averageRating=0; %>
+                                    <% if (campground.review && Array.isArray(campground.review) &&
+                                        campground.review.length> 0) { %>
+                                        <% for (let review of campground.review) { %>
+                                            <% totalRating +=parseFloat(review.rating || 0); %>
+                                                <% } %>
+                                                    <% averageRating=totalRating / campground.review.length; %>
+                                                        ★<%= averageRating.toFixed(2) %> (<%= campground.review.length
+                                                                %> đánh giá)
+                                                                <% } else { %>
+                                                                    ★0.00 (0 đánh giá)
+                                                                    <% } %>
+                            </h5>
+                        </div>
+
+
+                        <h4 class="camp-item__location">
+                            <%=campground.location %>
+                        </h4>
+                        <h4 class="camp-item__price">
+                            <%= campground.price%>VND/đêm
+                        </h4>
+                        <p class="camp-item__capacity">Reservations:
+                            <% let revSum=0 %>
+                                <% for(let i=0;i<campground.reservations.length;i++){ %>
+                                    <% revSum +=campground.reservations[i].numberOfPeople %>
+
+                                        <% } %>
+                                            <%= revSum %> /
+                                                <%= campground.capacity %>
+                        </p>
+                        <div class="camp-item__description-container">
+                            <p class="camp-item__description">
+                                <%= campground.description %>
+                            </p>
+                        </div>
+
+                        <a class='camp-item__button ' href='/campgrounds/<%=campground._id %>'><svg
+                                class="camp-item__svg">
+                                <use xlink:href="img/sprite.svg#icon-angle-right"></use>
+                            </svg>
+                        </a>
+
+                    </li>
+                    <% } %>
+                        <!-- <a href="/campgrounds/new" class="add">
+                            <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <rect width="50" height="50" rx="25" fill="#B8B8B8" />
+                                <path d="M25 12.5L25 37.5" stroke="white" stroke-linecap="round" />
+                                <path d="M37.5 25L12.5 25" stroke="white" stroke-linecap="round" />
+                            </svg>
+                        </a> -->
+            </ul>
+            <a href="/campgrounds/new">Tạo mới</a>
+            <%- include('../layouts/footer')%>
+                <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollTrigger/1.0.6/ScrollTrigger.min.js"
+                    integrity="sha512-+LXqbM6YLduaaxq6kNcjMsQgZQUTdZp7FTaArWYFt1nxyFKlQSMdIF/WQ/VgsReERwRD8w/9H9cahFx25UDd+g=="
+                    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                <script src="
+        https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js
+        "></script>
+                <script src="/js/base/smoothScroll.js"></script>
+                <script src="/js/base/navigationAvatarAnimation.js"></script>
+                <script src="/js/base/footerAnimation.js"></script>
+
+                <script src="/js/index/pageScrollButton.js"></script>
+                <script
+                    src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v1.0.0/mapbox-gl-language.js'></script>
+                <script src="/js/index/mapExtend.js"></script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const searchInput = document.querySelector('.search__input');
+                        const searchResults = document.getElementById('searchResults');
+                        const campgrounds = JSON.parse(document.body.getAttribute('data-index-camp'));
+
+                        // Event listener for input changes
+                        searchInput.addEventListener('input', function () {
+                            const filter = searchInput.value.toLowerCase();
+                            if (filter === '') {
+                                searchResults.innerHTML = '';
+                                return;
+                            }
+
+                            const filteredCampgrounds = campgrounds.filter(campground => {
+                                return campground.title.toLowerCase().includes(filter) || campground.location.toLowerCase().includes(filter);
+                            });
+
+                            displayResults(filteredCampgrounds);
+                        });
+
+                        // Event listener for focus out of the search input
+                        searchInput.addEventListener('blur', function () {
+                            setTimeout(() => {
+                                searchResults.innerHTML = '';
+                            }, 100); // Delay to allow click on the results
+                        });
+
+                        // Event listener for focus on the search input
+                        searchInput.addEventListener('focus', function () {
+                            if (searchInput.value !== '') {
+                                const filter = searchInput.value.toLowerCase();
+                                const filteredCampgrounds = campgrounds.filter(campground => {
+                                    return campground.title.toLowerCase().includes(filter) || campground.location.toLowerCase().includes(filter);
+                                });
+
+                                displayResults(filteredCampgrounds);
+                            }
+                        });
+
+                        function displayResults(campgrounds) {
+                            searchResults.innerHTML = '';
+                            if (campgrounds.length > 0) {
+                                const ul = document.createElement('ul');
+                                campgrounds.forEach(campground => {
+                                    const li = document.createElement('li');
+                                    const a = document.createElement('a');
+                                    a.href = `campgrounds/${campground._id}`;
+                                    a.textContent = `Title: ${campground.title}, Location: ${campground.location}`;
+                                    li.appendChild(a);
+                                    ul.appendChild(li);
+                                });
+                                searchResults.appendChild(ul);
+                            } else {
+                                searchResults.textContent = 'No campgrounds match your search.';
+                            }
+                        }
+                    });
+                </script>
+                <!-- Include Socket.IO client script -->
+                <script src="/socket.io/socket.io.js"></script>
+                <script>
+                    const socket = io();
+
+                    socket.on('connect', () => {
+                        console.log('Connected to server via Socket.IO');
+                    });
+
+                    // Listen for new notifications
+                    socket.on('newNotification', (notification) => {
+                        displayNotification(notification);
+                    });
+
+                    function displayNotification(notification) {
+                        // Update the notification dropdown or list
+                        const notificationList = document.getElementById('notificationList');
+                        const notificationBadge = document.getElementById('notificationBadge');
+
+                        if (notificationList && notificationBadge) {
+                            const listItem = document.createElement('li');
+                            listItem.innerHTML = `
+                <a href="/notifications/${notification._id}">
+                    ${notification.content}
+                </a>
+            `;
+                            notificationList.prepend(listItem);
+
+                            // Update notification count badge
+                            let count = parseInt(notificationBadge.textContent) || 0;
+                            notificationBadge.textContent = count + 1;
+                        }
+                    }
+                </script>
+                <script>
+                    function toggleDropdown(event) {
+                        // event.preventDefault();
+                        const dropdownMenu = document.querySelector('.dropdown-menu');
+                        dropdownMenu.classList.toggle('show');
+                    }
+
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', function (e) {
+                        const dropdownMenu = document.querySelector('.dropdown-menu');
+                        const notificationsDropdown = document.getElementById('notificationsDropdown');
+                        if (!notificationsDropdown.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                            dropdownMenu.classList.remove('show');
+                        }
+                    });
+
+                </script>
+
+</body>
+
+</html>

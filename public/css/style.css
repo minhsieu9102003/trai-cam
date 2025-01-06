@@ -696,9 +696,7 @@
   border-radius: 10px;
 }
 
-body {
-  overflow: hidden;
-}
+body {}
 
 * {
   padding: 0;
@@ -1622,3 +1620,733 @@ body {
 }
 
 .search__container {}
+
+.role-container {
+  display: flex;
+  gap: 1rem
+}
+
+.camp-item.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.reservation-list {
+  width: 100%;
+  height: 20rem;
+  overflow-y: scroll;
+  padding: 1rem;
+  list-style: none;
+}
+
+.reservation-item {
+  width: 100%;
+  height: 10rem;
+  border-radius: 10px;
+  box-shadow: 0 .2rem .2rem .1rem rgba(0, 0, 0, .2);
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.navigation__user-item.dropdown {
+  position: relative;
+  z-index: 1000000000 !important;
+}
+
+.navigation__user-link {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 100%;
+  background-color: white;
+  min-width: 200px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  z-index: 100000000 !important;
+}
+
+.dropdown-menu.show {
+  display: block;
+  z-index: 10000000 !important;
+}
+
+.navigation__notification-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  z-index: 100000 !important;
+  height: 20rem;
+  width: 15rem;
+  overflow-y: scroll;
+}
+
+.navigation__notification-item {
+  display: block;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+  z-index: 1000000 !important;
+}
+
+.navigation__notification-item a {
+  display: block;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+  z-index: 1000000 !important;
+}
+
+.navigation__notification-item a:hover {
+  background-color: #f1f1f1;
+}
+
+
+/* Style for unread notifications */
+.notification-unread {
+  font-weight: bold;
+  color: #000;
+  /* Black text */
+}
+
+/* Style for read notifications */
+.notification-read {
+  font-weight: normal;
+  color: #888;
+  /* Grey text */
+}
+
+.chat-box {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  height: 400px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.chat-box.hidden {
+  display: none;
+}
+
+.chat-box-header {
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-box-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: #fafafa;
+}
+
+.chat-box-input {
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  display: flex;
+  gap: 10px;
+}
+
+.chat-box-input input {
+  flex-grow: 1;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.chat-box-input button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+/* Reservation List Container */
+.reservation-host-container {
+  font-family: "Kodchasan", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 100px 0;
+}
+
+/* Individual Reservation Card */
+.reservation-card {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 1000px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.reservation-card__img-container {
+  flex: 1;
+  height: 250px;
+}
+
+.hidden {
+  visibility: hidden;
+  position: absolute;
+  height: 0;
+}
+
+.reservation-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.reservation-card__details {
+  flex: 2;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.reservation-card__title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.reservation-card__info {
+  margin: 6px 0;
+  color: #666;
+  font-size: 16px;
+}
+
+.reservation-card__info strong {
+  color: #333;
+}
+
+.reservation-card__link {
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.reservation-card__link:hover {
+  text-decoration: underline;
+}
+
+.reservation-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Campground Title */
+.reservation-card__title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* Buyer and Details */
+.reservation-card__info {
+  font-size: 16px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.reservation-card__info strong {
+  color: #333;
+}
+
+/* View Details Link */
+.reservation-card__link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.reservation-card__link:hover {
+  text-decoration: underline;
+}
+
+/* Back Link */
+.reservation-back-link {
+  display: inline-block;
+  margin-top: 30px;
+  font-size: 16px;
+  color: #555;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.reservation-back-link:hover {
+  color: #007bff;
+}
+
+/* Tabs Container */
+/* Tabs Container */
+/* Tabs Container */
+.reservation-tabs {
+  display: flex;
+  justify-content: flex-start;
+  /* Align to start, improves wrapping */
+  gap: 10px;
+  /* Uniform spacing between tabs */
+  flex-wrap: wrap;
+  /* Allow tabs to wrap if needed */
+  margin: 30px auto;
+  /* Center container and add margin */
+  max-width: 1000px;
+  /* Limit width */
+}
+
+/* Individual Tabs */
+.tab {
+  background-color: #f1f1f1;
+  border: none;
+  padding: 14px 30px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+  flex-grow: 1;
+  /* Ensure tabs grow evenly */
+  text-align: center;
+  max-width: 150px;
+  /* Prevent overly wide tabs */
+}
+
+.tab:hover {
+  background-color: #ddd;
+}
+
+.tab.active {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Responsive Behavior */
+@media (max-width: 768px) {
+  .reservation-tabs {
+    justify-content: center;
+    /* Center tabs on mobile */
+  }
+
+  .tab {
+    width: 45%;
+    /* Make tabs wider on small screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .tab {
+    width: 100%;
+    /* Full-width tabs on narrow screens */
+    margin: 5px 0;
+  }
+}
+
+
+.reservation-search {
+  margin: 20px auto;
+  max-width: 700px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Search Bar Input */
+#reservationSearch {
+  width: 100%;
+  padding: 14px 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+#reservationSearch:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+}
+
+
+/* Reservation Detail Page - Scoped CSS */
+/* Reservation Detail Page - Scoped CSS */
+.reservation-detail-container {
+  font-family: 'Kodchasan', sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 30px;
+}
+
+.reservation-receipt-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  max-width: 900px;
+  width: 100%;
+}
+
+/* Header */
+.reservation-receipt-header {
+  text-align: center;
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+}
+
+.reservation-receipt-header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  color: #333;
+}
+
+/* Campground Card */
+.reservation-campground-card {
+  display: flex;
+  align-items: center;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  margin: 20px 0;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.reservation-campground-img {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 20px;
+  transition: transform 0.3s ease;
+}
+
+.reservation-campground-img:hover {
+  transform: scale(1.05);
+}
+
+.campground-card-text h3 {
+  margin: 0;
+  color: #333;
+}
+
+.campground-card-text p {
+  margin: 5px 0;
+  color: #666;
+}
+
+/* Sections */
+.reservation-receipt-section {
+  margin-bottom: 30px;
+}
+
+.reservation-receipt-section>* {
+  font-family: 'Kodchasan', sans-serif;
+}
+
+.reservation-receipt-section h2 {
+  margin-bottom: 15px;
+  color: #007bff;
+}
+
+.reservation-receipt-section p {
+  font-size: 1rem;
+  line-height: 1.8;
+  margin: 8px 0;
+}
+
+.reservation-unpaid {
+  color: #d9534f;
+  font-weight: bold;
+}
+
+/* Footer */
+.reservation-receipt-footer {
+  text-align: center;
+  margin-top: 40px;
+  border-top: 2px solid #ddd;
+  padding-top: 25px;
+}
+
+.reservation-back-button {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 12px 30px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.reservation-back-button:hover {
+  background-color: #0056b3;
+}
+
+
+/* Guest Reservations Page - myReservations */
+.my-reservations-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  font-family: "Kodchasan", sans-serif;
+  margin-top: 5rem;
+}
+
+.my-reservations-header {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.my-reservations-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.my-tab {
+  padding: 10px 20px;
+  margin: 0 10px;
+  background-color: #f1f1f1;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.my-tab:hover {
+  background-color: #e1e1e1;
+}
+
+.my-tab.active {
+  background-color: #222;
+  color: white;
+  border-color: #222;
+}
+
+.my-reservation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+}
+
+.my-reservation-card {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.my-reservation-card:hover {
+  transform: translateY(-5px);
+}
+
+.my-reservation-card__image {
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.my-reservation-card__details {
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.my-reservation-card__details h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.my-reservation-card__details p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.my-reservation-card__link {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 8px 16px;
+  background-color: #0066cc;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.my-reservation-card__link:hover {
+  background-color: #004999;
+}
+
+.no-my-reservations {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 1.25rem;
+  color: #777;
+}
+
+/* Guest-specific reservation card styling */
+.guest-reservation__card {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  background-color: #fff;
+  transition: box-shadow 0.3s ease;
+}
+
+.guest-reservation__card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.guest-reservation__img {
+  width: 180px;
+  /* Smaller width for guest cards */
+  height: 120px;
+  /* Maintain aspect ratio */
+  object-fit: cover;
+  border-radius: 10px;
+  margin-right: 20px;
+}
+
+.guest-reservation__details {
+  flex: 1;
+  padding: 20px;
+}
+
+.guest-reservation__link {
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+  color: #007bff;
+  font-weight: 500;
+}
+
+.guest-reservation__link:hover {
+  text-decoration: underline;
+}
+
+/* Tabs Styling for guest reservations */
+.guest-reservations-tabs {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.guest-tab {
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  margin: 0 10px;
+  border-radius: 20px;
+  background-color: #f8f8f8;
+  transition: background-color 0.3s ease;
+}
+
+.guest-tab.active {
+  background-color: #28a745;
+  color: white;
+}
+
+.guest-tab:hover {
+  background-color: #e9ecef;
+}
+
+.guest-reservation-detail {
+  font-family: "Kodchasan", sans-serif;
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.guest-reservation-detail__title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.guest-reservation__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.guest-reservation__campground-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.guest-reservation__camp-img {
+  width: 180px;
+  height: 140px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.guest-reservation__camp-info h3 {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.guest-reservation__info,
+.guest-reservation__payment {
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.guest-reservation__info p,
+.guest-reservation__payment p {
+  margin: 0.6rem 0;
+}

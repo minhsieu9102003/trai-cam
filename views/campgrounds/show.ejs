@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/show_style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -98,10 +99,56 @@
                         <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method='POST'>
                             <button class="show__update-delete">xóa</button>
                         </form>
-                        <% } %>
-                            <span class="show__update-price">
-                                <%=campground.price%>VND/đêm
-                            </span>
+                        <% } else if (currentUser && currentUser.role==='buyer' ) { %>
+                            <button class="show__update-reserve"
+                                onclick="document.getElementById('reservation-form').style.display='block'">Đặt
+                                chỗ</button>
+                            <!-- <form action="/payment/create_payment_url/<%= campground._id %>" method="GET"
+                                style="display:inline;">
+                                <button type="submit" class="show__update-pay">Thanh toán với VNPay</button>
+                            </form> -->
+
+                            <% } %>
+                                <div id="reservation-form" class="modal">
+                                    <form class="modal-content animate" action="/campgrounds/<%= campground._id %>"
+                                        method="POST">
+                                        <div class="container">
+                                            <span
+                                                onclick="document.getElementById('reservation-form').style.display='none'"
+                                                class="close" title="Close Modal">&times;</span>
+                                            <h2>Đặt chỗ</h2>
+
+                                            <label for="numberOfPeople"><b>Số người</b></label>
+                                            <input type="number" placeholder="Enter number of people"
+                                                name="reservation[numberOfPeople]" required>
+
+                                            <label for="checkIn"><b>Ngày nhận phòng</b></label>
+                                            <input type="date" name="reservation[checkIn]" required>
+
+                                            <label for="checkOut"><b>Ngày trả phòng</b></label>
+                                            <input type="date" name="reservation[checkOut]" required>
+
+                                            <label for="note"><b>Lời nhắn tới chủ sở hữu</b></label>
+                                            <textarea placeholder="Write a note" name="reservation[note]"></textarea>
+
+                                            <label for="paymentMethod"><b>Phương thức thanh toán</b></label>
+                                            <select name="reservation[paymentMethod]">
+                                                <option value="Credit Card">Credit Card</option>
+                                                <option value="Debit Card">Debit Card</option>
+                                                <option value="PayPal">PayPal</option>
+                                                <option value="Cash">Cash</option>
+                                            </select>
+
+                                            <button type="submit" class="reservebtn">Đặt chỗ</button>
+                                            <button type="button"
+                                                onclick="document.getElementById('reservation-form').style.display='none'"
+                                                class="cancelbtn">Thoát</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <span class="show__update-price">
+                                    <%=campground.price%>VND/đêm
+                                </span>
 
                 </div>
 
@@ -263,6 +310,117 @@
                     src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v1.0.0/mapbox-gl-language.js'></script>
                 <script src="https://developer.mozilla.org/en-US/docs/Web/API/Element.scrollIntoView"></script>
                 <script src="/js/show/showMap.js"></script>
+                <!-- Include Socket.IO client script -->
+                <script src="/socket.io/socket.io.js"></script>
+                <script>
+
+                    const socket = io()
+                    socket.on('connect', () => {
+                        console.log('Connected to server via Socket.IO');
+                    });
+
+                    // Listen for new notifications
+                    socket.on('newNotification', (notification) => {
+                        displayNotification(notification);
+                    });
+
+                    function displayNotification(notification) {
+                        // Update the notification dropdown or list
+                        const notificationList = document.getElementById('notificationList');
+                        const notificationBadge = document.getElementById('notificationBadge');
+
+                        if (notificationList && notificationBadge) {
+                            const listItem = document.createElement('li');
+                            listItem.innerHTML = `
+                <a href="/notifications/${notification._id}">
+                    ${notification.content}
+                </a>
+            `;
+                            notificationList.prepend(listItem);
+
+                            // Update notification count badge
+                            let count = parseInt(notificationBadge.textContent) || 0;
+                            notificationBadge.textContent = count + 1;
+                        }
+                    }
+                </script>
+                <script>
+                    function toggleDropdown(event) {
+                        event.preventDefault();
+                        const dropdownMenu = document.querySelector('.dropdown-menu');
+                        dropdownMenu.classList.toggle('show');
+                    }
+
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', function (e) {
+                        const dropdownMenu = document.querySelector('.dropdown-menu');
+                        const notificationsDropdown = document.getElementById('notificationsDropdown');
+                        if (!notificationsDropdown.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                            dropdownMenu.classList.remove('show');
+                        }
+                    });
+
+                </script>
+                <script>
+                    function toggleChatBox() {
+                        const chatBox = document.getElementById('chatBox');
+                        chatBox.classList.toggle('hidden');
+                    }
+
+                    function sendMessage() {
+                        const input = document.getElementById('chatInput');
+                        const message = input.value.trim();
+                        if (!message) return;
+
+                        socket.emit('sendMessage', { to: 'recipientId', message });
+                        // Display the message in the chat box
+                        const messages = document.getElementById('chatMessages');
+                        const messageElement = document.createElement('div');
+                        messageElement.textContent = `You: ${message}`;
+                        messageElement.style.margin = '5px 0';
+                        messages.appendChild(messageElement);
+                        messages.scrollTop = messages.scrollHeight;
+
+                        // Clear the input field
+                        input.value = '';
+
+                        // Add logic to send the message to the server via WebSocket or AJAX
+                    }
+                </script>
+                <script>
+
+
+                    // Send message to server
+                    function sendMessage() {
+                        const input = document.getElementById('chatInput');
+                        const message = input.value.trim();
+                        if (!message) return;
+
+                        // Send message to the server
+                        socket.emit('sendMessage', { to: 'recipientId', message });
+
+                        // Display the message locally
+                        const messages = document.getElementById('chatMessages');
+                        const messageElement = document.createElement('div');
+                        messageElement.textContent = `You: ${message}`;
+                        messageElement.style.margin = '5px 0';
+                        messages.appendChild(messageElement);
+                        messages.scrollTop = messages.scrollHeight;
+
+                        // Clear the input field
+                        input.value = '';
+                    }
+
+                    // Receive message from server
+                    socket.on('receiveMessage', (data) => {
+                        const messages = document.getElementById('chatMessages');
+                        const messageElement = document.createElement('div');
+                        messageElement.textContent = `${data.from}: ${data.message}`;
+                        messageElement.style.margin = '5px 0';
+                        messages.appendChild(messageElement);
+                        messages.scrollTop = messages.scrollHeight;
+                    });
+                </script>
 
 
 

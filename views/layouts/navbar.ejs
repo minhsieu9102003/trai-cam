@@ -39,8 +39,9 @@
                             </a>
 
                         </li>
-                        <li class="navigation__user-item">
-                            <a href="">
+                        <li class="navigation__user-item dropdown">
+                            <a href="#" class="navigation__user-link" id="notificationsDropdown"
+                                onclick="toggleDropdown(event)">
                                 <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -51,24 +52,58 @@
                                         stroke="#222222" stroke-linecap="round" />
                                     <ellipse cx="21.25" cy="8.75" rx="2.5" ry="2.5" fill="#222222" />
                                 </svg>
+                                <span id="notificationBadge" class="badge">
+                                    <%= unreadNotificationsCount %>
+                                </span>
                             </a>
+
+                        </li>
+                        <div class="dropdown-menu" aria-labelledby="notificationsDropdown"
+                            onclick="toggleDropdown(event)">
+                            <ul id="notificationList" class="navigation__notification-list">
+                                <% notifications.forEach(notification=> { %>
+                                    <li class="navigation__notification-item">
+                                        <a href="/notifications/<%= notification._id %>"
+                                            class="<%= notification.is_read ? 'notification-read' : 'notification-unread' %>">
+                                            <%= notification.content %>
+                                        </a>
+                                    </li>
+                                    <% }) %>
+                            </ul>
+                        </div>
+                        <li class="navigation__user-item">
+                            <% if (currentUser && currentUser.role==='seller' ) { %>
+                                <!-- Host user: Link to host reservation management -->
+                                <a href="/host/reservations">
+                                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M5 15C5 14.0714 5 13.6071 5.03425 13.2156C5.41491 8.86458 8.86458 5.41491 13.2156 5.03425C13.6071 5 14.0714 5 15 5V5C15.9286 5 16.3929 5 16.7844 5.03425C21.1354 5.41491 24.5851 8.86458 24.9658 13.2156C25 13.6071 25 14.0714 25 15V21.3636C25 22.8983 25 23.6657 24.6011 24.1986C24.4868 24.3512 24.3512 24.4868 24.1986 24.6011C23.6657 25 22.8983 25 21.3636 25H15C14.0714 25 13.6071 25 13.2156 24.9658C8.86458 24.5851 5.41491 21.1354 5.03425 16.7844C5 16.3929 5 15.9286 5 15V15Z"
+                                            stroke="black" />
+                                        <path d="M11.25 13.75L18.75 13.75" stroke="black" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path d="M15 18.75H18.75" stroke="black" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                                <% } else if (currentUser && currentUser.role==='buyer' ) { %>
+                                    <!-- Guest user: Link to guest reservation list -->
+                                    <a href="/my-reservations">
+                                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M5 15C5 14.0714 5 13.6071 5.03425 13.2156C5.41491 8.86458 8.86458 5.41491 13.2156 5.03425C13.6071 5 14.0714 5 15 5V5C15.9286 5 16.3929 5 16.7844 5.03425C21.1354 5.41491 24.5851 8.86458 24.9658 13.2156C25 13.6071 25 14.0714 25 15V21.3636C25 22.8983 25 23.6657 24.6011 24.1986C24.4868 24.3512 24.3512 24.4868 24.1986 24.6011C23.6657 25 22.8983 25 21.3636 25H15C14.0714 25 13.6071 25 13.2156 24.9658C8.86458 24.5851 5.41491 21.1354 5.03425 16.7844C5 16.3929 5 15.9286 5 15V15Z"
+                                                stroke="black" />
+                                            <path d="M11.25 13.75L18.75 13.75" stroke="black" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path d="M15 18.75H18.75" stroke="black" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                    </a>
+                                    <% } %>
                         </li>
                         <li class="navigation__user-item">
-                            <a href="">
-                                <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M5 15C5 14.0714 5 13.6071 5.03425 13.2156C5.41491 8.86458 8.86458 5.41491 13.2156 5.03425C13.6071 5 14.0714 5 15 5V5C15.9286 5 16.3929 5 16.7844 5.03425C21.1354 5.41491 24.5851 8.86458 24.9658 13.2156C25 13.6071 25 14.0714 25 15V21.3636C25 22.8983 25 23.6657 24.6011 24.1986C24.4868 24.3512 24.3512 24.4868 24.1986 24.6011C23.6657 25 22.8983 25 21.3636 25H15C14.0714 25 13.6071 25 13.2156 24.9658C8.86458 24.5851 5.41491 21.1354 5.03425 16.7844C5 16.3929 5 15.9286 5 15V15Z"
-                                        stroke="black" />
-                                    <path d="M11.25 13.75L18.75 13.75" stroke="black" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                    <path d="M15 18.75H18.75" stroke="black" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                            </a>
-                        </li>
-                        <li class="navigation__user-item">
-                            <a href="">
+                            <a href="" onClick="toggleChatBox()">
                                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -80,6 +115,20 @@
                                 </svg>
                             </a>
                         </li>
+                        <div id="chatBox" class="chat-box hidden">
+                            <div class="chat-box-header">
+                                <h4>Chat</h4>
+                                <button onclick="toggleChatBox()">Close</button>
+                            </div>
+                            <div class="chat-box-messages" id="chatMessages">
+                                <!-- Messages will be dynamically inserted here -->
+                            </div>
+                            <div class="chat-box-input">
+                                <input type="text" id="chatInput" placeholder="Type your message..." />
+                                <button onclick="sendMessage()">Send</button>
+                            </div>
+                        </div>
+
                         <% if(currentUser){ %>
                             <li class="navigation__user-item navigation__user-item-logout">
                                 <a href="/logout">
@@ -111,6 +160,7 @@
 
 
                     </ul>
+
     </div>
 </div>
 <div class="navigation__line"></div>

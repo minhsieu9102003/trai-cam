@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết Đặt Chỗ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('../layouts/navbar') %>
+
+        <div class="guest-reservation-detail">
+            <h1 class="guest-reservation-detail__title">Chi tiết Đặt Chỗ của Bạn</h1>
+
+            <div class="guest-reservation__wrapper">
+                <!-- Campground Info -->
+                <div class="guest-reservation__campground-card">
+                    <a href="/campgrounds/<%= reservation.campground._id %>">
+                        <img src="<%= reservation.campground.image[0].url %>" alt="<%= reservation.campground.title %>"
+                            class="guest-reservation__camp-img">
+                    </a>
+                    <div class="guest-reservation__camp-info">
+                        <h3>
+                            <%= reservation.campground.title %>
+                        </h3>
+                        <p><strong>Địa điểm:</strong>
+                            <%= reservation.campground.location %>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Reservation Details -->
+                <div class="guest-reservation__info">
+                    <h2>Thông tin Đặt Chỗ</h2>
+                    <p><strong>Số người:</strong>
+                        <%= reservation.numberOfPeople %>
+                    </p>
+                    <p><strong>Ngày đến:</strong>
+                        <%= reservation.checkIn.toDateString() %>
+                    </p>
+                    <p><strong>Ngày đi:</strong>
+                        <%= reservation.checkOut.toDateString() %>
+                    </p>
+                    <p><strong>Ghi chú:</strong>
+                        <%= reservation.note ? reservation.note : 'Không có' %>
+                    </p>
+                    <p><strong>Trạng thái:</strong>
+                        <%= reservation.status %>
+                    </p>
+                </div>
+
+                <!-- Payment Details -->
+                <!-- Payment Section -->
+                <div class="guest-reservation__payment">
+                    <h2>Thông tin Thanh Toán</h2>
+                    <% if (reservation.payment) { %>
+                        <p><strong>Order ID:</strong>
+                            <%= reservation.payment.orderId %>
+                        </p>
+                        <p><strong>Số tiền:</strong>
+                            <%= reservation.payment.amount %> VND
+                        </p>
+                        <p><strong>Mã giao dịch:</strong>
+                            <%= reservation.payment.transactionNo %>
+                        </p>
+                        <p><strong>Ngân hàng:</strong>
+                            <%= reservation.payment.bankCode %>
+                        </p>
+                        <p><strong>Loại thẻ:</strong>
+                            <%= reservation.payment.cardType %>
+                        </p>
+                        <p><strong>Ngày thanh toán:</strong>
+                            <%= reservation.payment.payDate %>
+                        </p>
+                        <% } else { %>
+                            <p>Chưa thanh toán</p>
+                            <% } %>
+                </div>
+
+            </div>
+        </div>
+
+        <%- include('../layouts/footer') %>
+</body>
+
+</html>

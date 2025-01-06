@@ -69,65 +69,78 @@
             </div>
             <div class="navigation__line"></div>
             <div class='filter-container'>
-                <a href="" class="filter">của bạn</a>
+                <a href="" class="filter">tất cả</a>
             </div>
 
 
 
             <ul class="camp-list">
                 <% for(let campground of campgrounds){ %>
+                    <% const isFull=campground.reservations.length>= campground.capacity; %>
+                        <li class="camp-item <%= isFull ? 'disabled' : '' %>">
+                            <img class="camp-item__photo" src=<%=campground.image[0].url %>>
+                            <div class="camp-item__title">
+                                <h3 class="">
+                                    <%=campground.title %>
 
-                    <li class="camp-item">
-                        <img class="camp-item__photo" src=<%=campground.image[0].url %>>
-                        <div class="camp-item__title">
-                            <h3 class="">
-                                <%=campground.title %>
-
-                            </h3>
-                            <h5 class="">
-                                <% let totalRating=0; let averageRating=0; if (campground.review &&
-                                    campground.review.length>0) {
-                                    for (let review of campground.review) {
-                                    totalRating += parseFloat(review.rating); // Ensure rating is treated as a number
-                                    }
-                                    averageRating = totalRating / campground.review.length;
-                                    averageRating = averageRating.toFixed(2); // Formats the average to two decimal
-
-                                    }
-                                    %>
-                                    ★<%= averageRating %> (<%= campground.review.length %> đánh giá)
-                            </h5>
-                        </div>
+                                </h3>
+                                <h5 class="">
+                                    <% let totalRating=0; let averageRating=0; %>
+                                        <% if (campground.review && Array.isArray(campground.review) &&
+                                            campground.review.length> 0) { %>
+                                            <% for (let review of campground.review) { %>
+                                                <% totalRating +=parseFloat(review.rating || 0); %>
+                                                    <% } %>
+                                                        <% averageRating=totalRating / campground.review.length; %>
+                                                            ★<%= averageRating.toFixed(2) %> (<%=
+                                                                    campground.review.length %> đánh giá)
+                                                                    <% } else { %>
+                                                                        ★0.00 (0 đánh giá)
+                                                                        <% } %>
+                                </h5>
+                            </div>
 
 
-                        <h4 class="camp-item__location">
-                            <%=campground.location %>
-                        </h4>
-                        <h4 class="camp-item__price">
-                            <%= campground.price%>VND/đêm
-                        </h4>
-                        <div class="camp-item__description-container">
-                            <p class="camp-item__description">
-                                <%= campground.description %>
+                            <h4 class="camp-item__location">
+                                <%=campground.location %>
+                            </h4>
+                            <h4 class="camp-item__price">
+                                <%= campground.price%>VND/đêm
+                            </h4>
+
+                            <p class="camp-item__capacity">Reservations:
+                                <% let revSum=0 %>
+                                    <% for(let i=0;i<campground.reservations.length;i++){ %>
+                                        <% revSum +=campground.reservations[i].numberOfPeople %>
+
+                                            <% } %>
+                                                <%= revSum %> /
+                                                    <%= campground.capacity %>
                             </p>
-                        </div>
 
-                        <a class='camp-item__button ' href='/campgrounds/<%=campground._id %>'><svg
-                                class="camp-item__svg">
-                                <use xlink:href="img/sprite.svg#icon-angle-right"></use>
-                            </svg>
-                        </a>
+                            </p>
+                            <div class="camp-item__description-container">
+                                <p class="camp-item__description">
+                                    <%= campground.description %>
+                                </p>
+                            </div>
 
-                    </li>
-                    <% } %>
-                        <a href="/campgrounds/new" class="add">
+                            <a class='camp-item__button ' href='/campgrounds/<%=campground._id %>'><svg
+                                    class="camp-item__svg">
+                                    <use xlink:href="img/sprite.svg#icon-angle-right"></use>
+                                </svg>
+                            </a>
+
+                        </li>
+                        <% } %>
+                            <!-- <a href="/campgrounds/new" class="add">
                             <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <rect width="50" height="50" rx="25" fill="#B8B8B8" />
                                 <path d="M25 12.5L25 37.5" stroke="white" stroke-linecap="round" />
                                 <path d="M37.5 25L12.5 25" stroke="white" stroke-linecap="round" />
                             </svg>
-                        </a>
+                        </a> -->
             </ul>
             <%- include('../layouts/footer')%>
                 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
@@ -204,7 +217,57 @@
                         }
                     });
                 </script>
+                <!-- Include Socket.IO client script -->
+                <script src="/socket.io/socket.io.js"></script>
+                <script>
+                    const socket = io();
 
+                    socket.on('connect', () => {
+                        console.log('Connected to server via Socket.IO');
+                    });
+
+                    // Listen for new notifications
+                    socket.on('newNotification', (notification) => {
+                        displayNotification(notification);
+                    });
+
+                    function displayNotification(notification) {
+                        // Update the notification dropdown or list
+                        const notificationList = document.getElementById('notificationList');
+                        const notificationBadge = document.getElementById('notificationBadge');
+
+                        if (notificationList && notificationBadge) {
+                            const listItem = document.createElement('li');
+                            listItem.innerHTML = `
+                <a href="/notifications/${notification._id}">
+                    ${notification.content}
+                </a>
+            `;
+                            notificationList.prepend(listItem);
+
+                            // Update notification count badge
+                            let count = parseInt(notificationBadge.textContent) || 0;
+                            notificationBadge.textContent = count + 1;
+                        }
+                    }
+                </script>
+                <script>
+                    function toggleDropdown(event) {
+                        event.preventDefault();
+                        const dropdownMenu = document.querySelector('.dropdown-menu');
+                        dropdownMenu.classList.toggle('show');
+                    }
+
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', function (e) {
+                        const dropdownMenu = document.querySelector('.dropdown-menu');
+                        const notificationsDropdown = document.getElementById('notificationsDropdown');
+                        if (!notificationsDropdown.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                            dropdownMenu.classList.remove('show');
+                        }
+                    });
+
+                </script>
 
 
 </body>

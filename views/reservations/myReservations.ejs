@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt chỗ của tôi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('../layouts/navbar') %>
+
+        <div class="my-reservations-container">
+            <h1 class="my-reservations-header">Đặt chỗ của tôi</h1>
+
+            <!-- Tabs for Filtering -->
+            <div class="guest-reservations-tabs">
+                <div class="guest-tab active" data-filter="all">Tất cả</div>
+                <div class="guest-tab" data-filter="upcoming">Sắp tới</div>
+                <div class="guest-tab" data-filter="one-week">1 tuần trước</div>
+                <div class="guest-tab" data-filter="two-weeks">2 tuần trước</div>
+                <div class="guest-tab" data-filter="one-month">1 tháng trước</div>
+                <div class="guest-tab" data-filter="canceled">Đã hủy</div>
+            </div>
+
+            <ul class="guest-reservations-list">
+                <% reservations.forEach(reservation=> { %>
+                    <li class="guest-reservation__card" data-checkin="<%= reservation.checkIn %>"
+                        data-checkout="<%= reservation.checkOut %>" data-status="<%= reservation.status %>">
+                        <img src="<%= reservation.campground.image[0].url %>" alt="<%= reservation.campground.title %>"
+                            class="guest-reservation__img">
+                        <div class="guest-reservation__details">
+                            <h3>
+                                <%= reservation.campground.title %>
+                            </h3>
+                            <p>Ngày đến: <%= reservation.checkIn.toDateString() %>
+                            </p>
+                            <p>Ngày đi: <%= reservation.checkOut.toDateString() %>
+                            </p>
+                            <p>Trạng thái: <%= reservation.status %>
+                            </p>
+                            <a href="<%= currentUser.role === 'host' ? '/reservations/' + reservation._id : '/my-reservations/' + reservation._id %>"
+                                class="guest-reservation__link">Xem chi tiết</a>
+                        </div>
+                    </li>
+                    <% }) %>
+            </ul>
+
+
+        </div>
+
+        <script>
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const tabs = document.querySelectorAll('.guest-tab');
+                const reservationCards = document.querySelectorAll('.guest-reservation__card');
+
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', function () {
+                        // Remove active class from all tabs
+                        tabs.forEach(t => t.classList.remove('active'));
+                        // Add active class to the clicked tab
+                        this.classList.add('active');
+
+                        // Filter logic
+                        const filter = this.getAttribute('data-filter');
+                        const today = new Date();
+
+                        reservationCards.forEach(card => {
+                            const checkInDate = new Date(card.dataset.checkin);
+                            const checkOutDate = new Date(card.dataset.checkout);
+                            const status = card.dataset.status;
+
+                            let show = false;
+
+                            switch (filter) {
+                                case 'all':
+                                    show = true;
+                                    break;
+                                case 'upcoming':
+                                    show = checkInDate > today && status !== 'canceled';
+                                    break;
+                                case 'one-week':
+                                    show = checkInDate <= today && (today - checkOutDate <= 7 * 24 * 60 * 60 * 1000);
+                                    break;
+                                case 'two-weeks':
+                                    show = checkInDate <= today && (today - checkOutDate <= 14 * 24 * 60 * 60 * 1000);
+                                    break;
+                                case 'one-month':
+                                    show = checkInDate <= today && (today - checkOutDate <= 30 * 24 * 60 * 60 * 1000);
+                                    break;
+                                case 'canceled':
+                                    show = status === 'canceled';
+                                    break;
+                            }
+
+                            card.style.display = show ? 'flex' : 'none';
+                        });
+                    });
+                });
+            });
+
+
+        </script>
+
+        <%- include('../layouts/footer') %>
+</body>
+
+</html>

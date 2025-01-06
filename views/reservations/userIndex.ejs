@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Đặt chỗ của tôi</title>
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('../layouts/navbar') %>
+
+        <div class="reservation-container">
+            <h1>🧾 Đặt chỗ của tôi</h1>
+
+            <!-- Tabs for filtering -->
+            <div class="reservation-tabs">
+                <button class="tab-btn active" data-filter="all">Tất cả</button>
+                <button class="tab-btn" data-filter="upcoming">Sắp tới</button>
+                <button class="tab-btn" data-filter="week">1 tuần trước</button>
+                <button class="tab-btn" data-filter="two-weeks">2 tuần trước</button>
+                <button class="tab-btn" data-filter="month">1 tháng trước</button>
+                <button class="tab-btn" data-filter="canceled">Đã hủy</button>
+            </div>
+
+            <!-- Reservation List -->
+            <ul class="reservation-list">
+                <% reservations.forEach(reservation=> { %>
+                    <% let statusClass=reservation.status==='Canceled' ? 'reservation-canceled' : '' ; %>
+                        <li class="reservation-item <%= statusClass %>" data-status="<%= reservation.status %>"
+                            data-checkin="<%= reservation.checkIn %>">
+                            <a href="/reservations/<%= reservation._id %>">
+                                <div class="reservation-card">
+                                    <img src="<%= reservation.campground.image[0].url %>"
+                                        alt="<%= reservation.campground.title %>" class="reservation-img">
+                                    <div class="reservation-details">
+                                        <h3>
+                                            <%= reservation.campground.title %>
+                                        </h3>
+                                        <p><strong>Ngày đến:</strong>
+                                            <%= reservation.checkIn.toDateString() %>
+                                        </p>
+                                        <p><strong>Ngày đi:</strong>
+                                            <%= reservation.checkOut.toDateString() %>
+                                        </p>
+                                        <p><strong>Trạng thái:</strong>
+                                            <%= reservation.status %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <% }) %>
+            </ul>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const tabs = document.querySelectorAll('.tab-btn');
+                const reservationItems = document.querySelectorAll('.reservation-item');
+
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const filter = tab.dataset.filter;
+                        tabs.forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+
+                        reservationItems.forEach(item => {
+                            const checkInDate = new Date(item.dataset.checkin);
+                            const now = new Date();
+
+                            let show = false;
+
+                            if (filter === 'all') {
+                                show = true;
+                            } else if (filter === 'upcoming' && checkInDate >= now) {
+                                show = true;
+                            } else if (filter === 'week' && checkInDate >= new Date(now - 7 * 24 * 60 * 60 * 1000)) {
+                                show = true;
+                            } else if (filter === 'two-weeks' && checkInDate >= new Date(now - 14 * 24 * 60 * 60 * 1000)) {
+                                show = true;
+                            } else if (filter === 'month' && checkInDate >= new Date(now - 30 * 24 * 60 * 60 * 1000)) {
+                                show = true;
+                            } else if (filter === 'canceled' && item.dataset.status === 'Canceled') {
+                                show = true;
+                            }
+
+                            item.style.display = show ? 'block' : 'none';
+                        });
+                    });
+                });
+            });
+        </script>
+
+        <%- include('../layouts/footer') %>
+</body>
+
+</html>
